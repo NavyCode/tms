@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  service:
+    container_name: navy_plan_service
+    image: navy/plan/service
+    environment:
+      PG_CONNECTION_STRING: "Host=127.0.0.1;Port=5432;Database=navy_testplan;Username=navy;Password=navy;Pooling=true;Maximum Pool Size=100"
+    ports:
+      - "81:80"
+      - "444:443"
+  client:
+    container_name: navy_plan_client
+    image: navy/plan/client
+    ports:
+      - "80:80"
+      - "443:443"

@@ -1,0 +1,41 @@
+<div class="w-100 h-100 d-flex flex-row flex-grow-1 justify-content-center align-items-center" style="background-image: url('assets/images/core/bg.jpg');
+background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  ">
+
+  <div class="flex-column  " > 
+    <div style="width: 300px; " class="flex-row bg-white p-4">
+        <div>
+          <h4>Test plans</h4>
+        </div>
+        <div class="mb-2 mt-3">
+            <input type="text" [(ngModel)]="data.login" (keydown.enter)="login()" id="tbLogin" name="login" class="form-control" placeholder="Login">
+        </div> 
+        <div>
+            <input type="password" [(ngModel)]="data.pass" (keydown.enter)="login()"  name="pass" class="form-control" placeholder="Password">
+        </div> 
+        
+        <div class="form-check mt-1 mx-1" style="float: left; " >
+          <input class="form-check-input" type="checkbox" [(ngModel)]="data.isRegister" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            I'm a new user
+          </label>
+        </div>
+        <div style="float: right;" class="mt-4" >
+          <button type="button" *ngIf="data.isRegister" class="btn btn-primary bi bi-box-arrow-in-right" (click)="register()"> Register</button>
+          <button type="button" *ngIf="!data.isRegister" class="btn btn-primary bi bi-box-arrow-in-right" (click)="login()"> Login</button>
+        
+        </div>
+        <div class="clearfix"></div>
+  
+    </div>
+  </div>
+
+</div> 
+
+<div style="position: absolute; bottom: 1px;" class="w-100 d-flex flex-row flex-grow-1 justify-content-center align-items-center">
+  <div class="flex-column " style="width: 90%">
+    <p-messages [value]="data.requests.messages"></p-messages>
+  </div>
+</div>

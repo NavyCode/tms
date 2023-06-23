@@ -1,0 +1,22 @@
+@import '../app.component.css';
+@import '../../styles.css';
+
+/deep/ .p-tabview .p-tabview-panels {
+    padding: 0rem;
+  }
+  
+  /deep/ .p-datatable .p-datatable-tbody>tr>td {
+    height: 16px;
+  }
+  
+  /deep/ .p-splitter-horizontal {
+    flex-grow: 1;
+  }
+
+  /deep/  .p-dialog .p-dialog-header {
+    padding: 0.9rem 0.9rem 0.9rem 1.5rem;
+}
+
+/deep/  .p-dialog .p-dialog-footer {
+  padding: 0 0.9rem 0.9rem 0.9rem 1.5rem;
+}

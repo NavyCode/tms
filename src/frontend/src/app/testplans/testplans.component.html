@@ -1,0 +1,125 @@
+<p-contextMenu #cm [model]="contextMenuItems"></p-contextMenu>
+
+<div class="d-flex flex-grow-1 h-100">
+  <div class="d-flex flex-row flex-grow-1">
+    <lefttoolbar [projectid]="data.projectId"></lefttoolbar>
+    <div class="d-flex flex-column flex-grow-1">
+      <navigation [(links)]="data.navigationLinks"></navigation>
+      <div class="d-flex flex-row">
+        <div class="clearfix w-100 pt-2 px-3">
+          <div style="float: left">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary bi bi-plus-lg" (click)="this.showAddPlanWindow()"> New test
+                  plan</button>
+              </div>
+              <div class="btn-group" role="group" *ngIf="data.selectedPlan">
+                <button type="button" class="btn btn-light bi bi-pencil" (click)="this.showEditPlanWindow()"> </button>
+                <button type="button" class="btn btn-light bi bi-x-lg" (click)="this.showDeletePlanWindow()"> </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row flex-grow-1">
+
+        <div style="padding: 10px 0px 10px 0px;" class="w-100">
+          <p-table [value]="data.plans" class="w-100" selectionMode="single" [(selection)]="data.selectedPlan"
+            [(contextMenuSelection)]="data.selectedPlan" [contextMenu]="cm" dataKey="id">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="py-2" pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th class="py-0" pSortableColumn="comment">Comment <p-sortIcon field="comment"></p-sortIcon></th>
+                <th class="py-0" pSortableColumn="state">State <p-sortIcon field="stateStr"></p-sortIcon></th>
+                <th class="py-0" pSortableColumn="assignedTo">Assigned To <p-sortIcon field="assignedTo"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-p>
+              <tr class="sample" [pContextMenuRow]="p" [pSelectableRow]="p">
+                <td class="py-2">
+                  <div style="float: left; width: 25px;"><img src="assets/images/testplans/testplan_icon.png"
+                      width="20">
+                  </div>
+                  <div><a [routerLink]="p.link.path">{{p.name}}</a></div>
+                </td>
+                <td class="py-0">{{p.comment}}</td>
+                <td class="py-0">{{p.stateStr}}</td>
+                <td class="py-0">{{p.assignedTo.name}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<p-dialog *ngIf="data.isAddPlanModalVisible == true" header="Create plan" 
+  [(visible)]="data.isAddPlanModalVisible" [modal]="true" (onShow)="this.FocusNewPlanName()"
+  [style]="{width: '500px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <form>
+    <div class="form-group">
+      <label for="tbNewPlanName">Name</label>
+      <input name="tbNewPlanName" type="text" class="form-control" [(ngModel)]="data.selectedPlan.name" 
+        id="tbNewPlanName" placeholder="" (keydown.enter)="this.addPlan()">
+    </div>
+    <div class="form-group">
+      <label for="newPlanComment">Comment</label>
+      <textarea name="newPlanComment" class="form-control" [(ngModel)]="data.selectedPlan.comment"
+        id="newPlanComment" rows="2" ></textarea>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" (click)="this.addPlan()"> Create </button>
+
+  </ng-template>
+</p-dialog>
+
+
+
+<p-dialog  *ngIf="data.isDeletePlanModalVisible == true"  header="Delete plan '{{ data.selectedPlan?.name }}'?"
+
+  [(visible)]="data.isDeletePlanModalVisible" [modal]="true" [style]="{width: '500px'}" [baseZIndex]="10000"
+  [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" (click)="this.deletePlan()"> Yes </button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog *ngIf="data.isEditPlanModalVisible == true" header="Edit plan" [(visible)]="data.isEditPlanModalVisible" [modal]="true"
+  [style]="{width: '500px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <form>
+    <div class="form-group m-0 py-1" >
+      <p-dropdown appendTo="body" [options]="data.states"  optionLabel="name" [ngModelOptions]="{standalone: true}"
+       optionValue="value" [(ngModel)]="data.selectedPlan.state" ></p-dropdown>
+    </div>
+    <div class="form-group m-0 py-1">
+      <input name="newProjectName" type="text" class="form-control" [(ngModel)]="data.selectedPlan.name"   placeholder="">
+    </div>
+    <div class="form-group m-0 py-1">
+      <textarea name="newProjectComment" class="form-control" [(ngModel)]="data.selectedPlan.comment"
+        id="newProjectComment" rows="2"></textarea>
+    </div>
+    <div class="form-group m-0 py-1">
+      <label for="newProjectComment" class="m-0 p-0">Assigned To</label><br>
+      <p-dropdown appendTo="body" [options]="data.users" optionLabel="name" optionValue="id" [(ngModel)]="data.selectedPlan.assignedTo.id" id="newProjectState" 
+        [ngModelOptions]="{standalone: true}"
+        class="w-100 m-0"></p-dropdown>
+    </div>
+  </form>
+  <ng-template pTemplate="footer" >
+    <button type="button" class="btn btn-primary" (click)="this.editPlan()"> Save</button>
+  </ng-template>
+</p-dialog>
+ 
+<div style="position: absolute; bottom: 1px;" class="w-100 d-flex flex-row flex-grow-1 justify-content-center align-items-center">
+  <div class="flex-column " style="width: 90%">
+    <p-messages [value]="requests.messages"></p-messages>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

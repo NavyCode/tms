@@ -1,0 +1,10 @@
+﻿docker build -t navy/plan/service .
+
+docker save navy/plan/service > navy_plan_service.tar
+docker save navy/plan/client > navy_plan_client.tar
+
+docker load < navy_plan_client.tar
+docker load < navy_plan_service.tar
+
+docker container prune
+docker compose up

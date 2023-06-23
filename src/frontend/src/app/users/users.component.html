@@ -1,0 +1,132 @@
+<p-contextMenu #cm [model]="contextMenuItems"></p-contextMenu>
+
+<div class="d-flex flex-grow-1 h-100">
+  <div class="d-flex flex-row flex-grow-1">
+    <lefttoolbar [projectid]="data.projectId"></lefttoolbar>
+    <div class="d-flex flex-column flex-grow-1">
+      <navigation [(links)]="data.navigationLinks"></navigation>
+
+      <div class="d-flex flex-row">
+        <div class="clearfix w-100 pt-2 px-3">
+          <div style="float: left">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary bi bi-plus-lg" (click)="this.showAddUserWindow()"> New user</button>
+                <button type="button" class="btn btn-light bi bi-person-add" (click)="this.showInviteUserWindow()"> Invite</button>
+              </div>
+              <div class="btn-group" role="group" *ngIf="data.selectedUser">
+                <button *ngIf="data.selectedUser.isVirtual == true && data.selectedUser.role != userRole.Owner" type="button" class="btn btn-light bi bi-pencil" (click)="this.showEditUserWindow()"> </button>
+                <button *ngIf="data.selectedUser.role != userRole.Owner" type="button" class="btn btn-light bi bi-x-lg" (click)="this.showDeleteUserWindow()"> </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row flex-grow-1"> 
+
+        <div style="padding: 10px 0px 10px 0px;" class="w-100">
+        <p-table [value]="data.users" class="w-100" selectionMode="single" [(selection)]="data.selectedUser"  [(contextMenuSelection)]="data.selectedUser" [contextMenu]="cm" dataKey="id" >
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="py-2" pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+              <th class="py-0" pSortableColumn="login">Login <p-sortIcon field="login"></p-sortIcon></th>
+              <th class="py-0" pSortableColumn="role">role <p-sortIcon field="role"></p-sortIcon></th>
+              <th class="py-0" pSortableColumn="mail">mail <p-sortIcon field="mail"></p-sortIcon></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-p>
+            <tr class="sample" [pContextMenuRow]="p" [pSelectableRow]="p">
+              <td class="py-2" >
+                <!-- <div style="float: left; width: 25px;"><img src="assets/images/testplans/testplan_icon.png" width="20">
+                </div> -->
+                <div>{{p.name}}</div> 
+              </td>
+              <td class="py-0" >{{p.name}}</td>
+              <td class="py-0" >{{p.roleStr}}</td>
+              <td class="py-0" >{{p.mail}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<p-dialog *ngIf="data.isInviteUserModalVisible" header="Invite exist user" [(visible)]="data.isInviteUserModalVisible" [modal]="true" [style]="{width: '400px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <div class="form-group" class="m-0 py-1">
+      <label class="m-0 p-0">Mail</label>
+      <input type="text" class="form-control" [(ngModel)]="data.inviteMail" placeholder="Enter mail">
+    </div>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary bi " (click)="this.showAddUserWindow()"> Invite</button>
+  </ng-template>
+</p-dialog> 
+
+<p-dialog *ngIf="data.isAddUserModalVisible" header="Create project user" [(visible)]="data.isAddUserModalVisible" [modal]="true" [style]="{width: '400px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <div class="form-group" class="m-0 py-0">
+      <p-dropdown optionLabel="name" optionValue="value" 
+        [ngModelOptions]="{standalone: true}" [options]="data.userRoles" appendTo="body" 
+        [(ngModel)]="data.selectedUser.role" ></p-dropdown>
+    </div>
+    <div class="form-group" class="m-0 py-1">
+      <label class="m-0 p-0">Name</label>
+      <input type="text" class="form-control" [(ngModel)]="data.selectedUser.name" placeholder="Enter name">
+    </div>
+    <div class="form-group" class="m-0 py-1">
+      <label class="m-0 p-0">Login</label>
+      <input type="text" class="form-control" [(ngModel)]="data.selectedUser.login" placeholder="Enter login">
+    </div>
+    <div class="form-group" class="m-0 py-1">
+      <label class="m-0 p-0">Pass</label>
+      <input type="password" class="form-control" [(ngModel)]="data.selectedUser.pass" placeholder="Enter pass">
+    </div>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary bi " (click)="this.addUser()"> Create</button>
+  </ng-template>
+</p-dialog> 
+
+<p-dialog *ngIf="data.selectedUser" header="Delete user '{{ data.selectedUser?.name }}'?" [(visible)]="data.isDeleteUserModalVisible" 
+  [modal]="true" [style]="{width: '500px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" (click)="this.deleteUser()"> Yes </button>
+  </ng-template>
+</p-dialog>
+
+ 
+<p-dialog *ngIf="data.isEditUserModalVisible" header="Edit project user" [(visible)]="data.isEditUserModalVisible" [modal]="true" [style]="{width: '400px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <div class="form-group" class="m-0 py-0">
+      <p-dropdown optionLabel="name" optionValue="value" 
+        [ngModelOptions]="{standalone: true}" [options]="data.userRoles" appendTo="body" 
+        [(ngModel)]="data.selectedUser.role" ></p-dropdown>
+    </div>
+    <div class="form-group" class="m-0 py-1">
+      <label class="m-0 p-0">Name</label>
+      <input type="text" class="form-control" [(ngModel)]="data.selectedUser.name" placeholder="Enter name">
+    </div>
+    <div class="form-group" class="m-0 py-1">
+      <label class="m-0 p-0">Login</label>
+      <input type="text" class="form-control" [(ngModel)]="data.selectedUser.login" placeholder="Enter login">
+    </div>
+    <div class="form-group" class="m-0 py-1">
+      <label class="m-0 p-0">Pass</label>
+      <input type="password" class="form-control" [(ngModel)]="data.selectedUser.pass" placeholder="Enter pass">
+    </div>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary bi " (click)="this.editUser()"> Edit</button>
+  </ng-template>
+</p-dialog>
+
+<div style="position: absolute; bottom: 1px;" class="w-100 d-flex flex-row flex-grow-1 justify-content-center align-items-center">
+  <div class="flex-column " style="width: 90%">
+    <p-messages [value]="requests.messages"></p-messages>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

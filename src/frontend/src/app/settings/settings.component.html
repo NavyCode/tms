@@ -1,0 +1,37 @@
+<div class="d-flex flex-grow-1 h-100">
+  <div class="d-flex flex-row flex-grow-1">
+    <lefttoolbar [projectid]="data.projectId"></lefttoolbar>
+    <div class="d-flex flex-column flex-grow-1">
+      <navigation [(links)]="data.navigationLinks"></navigation>
+
+      <div class="d-flex flex-row flex-grow-1">
+        <p-tabView class="w-100 h-100">
+          <p-tabPanel header="Test configs" style="padding: 0px; margin: 0px;" [selected]="data.isConfigsTabSelected">
+            <ng-template pTemplate="content" style="padding: 0px;">
+              <div class="w-100 h-100">
+                <setting_configs></setting_configs>
+              </div>
+            </ng-template>
+          </p-tabPanel>
+          <p-tabPanel header="Config variables" [(selected)]="data.isConfigVarsTabSelected">
+            <ng-template pTemplate="content" style="padding: 0px;">
+              <div class="w-100 h-100">
+                <settings_configvars></settings_configvars>
+              </div>
+            </ng-template>
+          </p-tabPanel>
+        </p-tabView>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div style="position: absolute; bottom: 1px;" class="w-100 d-flex flex-row flex-grow-1 justify-content-center align-items-center">
+  <div class="flex-column " style="width: 90%">
+    <p-messages [value]="requests.messages"></p-messages>
+  </div>
+</div>
+<router-outlet></router-outlet>

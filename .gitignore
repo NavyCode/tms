@@ -364,8 +364,6 @@ FodyWeavers.xsd
 /NewRepo2
 /NewRepo
 
-# Monitel
-*.backup_*.sln
 /src/backend/TestPlanService.Tests/TestDataFactory.cs
 /src/backend/DebugService/appsettings.json
 /src/backend/TestPlanService/appsettings.json

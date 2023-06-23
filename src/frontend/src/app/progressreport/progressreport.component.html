@@ -1,0 +1,210 @@
+<div class="d-flex flex-grow-1 h-100">
+  <div class="d-flex flex-row flex-grow-1">
+    <lefttoolbar [projectid]="data.projectId"></lefttoolbar>
+    <div class="d-flex flex-column flex-grow-1">
+      <navigation [links]="data.navigationLinks"></navigation>
+
+      <div class="d-flex flex-row flex-grow-1">
+        <p-splitter [panelSizes]="[25,75]" class="d-flex flex-column flex-grow-1 ">
+          <ng-template pTemplate>
+            <div class="d-flex flex-column flex-grow-1 ">
+              <div class="clearfix w-100 ">
+                <div style="float: right">
+                  <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-light "
+                        [ngClass]="{'disabled_filter': data.filter.passed === true}"
+                        (click)="SetResultFilter(TestOutcome.Passed)">
+                        <img src="assets/images/testcase/passed_icon.svg" width="16">
+                      </button>
+                      <button type="button" class="btn btn-light"
+                        [ngClass]="{'disabled_filter': data.filter.failed === true}"
+                        (click)="SetResultFilter(TestOutcome.Failed)"><img src="assets/images/testcase/failed_icon.svg"
+                          width="16">
+                      </button>
+                      <button type="button" class="btn btn-light"
+                        [ngClass]="{'disabled_filter': data.filter.blocked === true}"
+                        (click)="SetResultFilter(TestOutcome.Blocked)"><img src="assets/images/testcase/blocked_icon.png"
+                          width="16">
+                      </button>
+                      <button type="button" class="btn btn-light"
+                        [ngClass]="{'disabled_filter': data.filter.skipped === true}"
+                        (click)="SetResultFilter(TestOutcome.Skipped)"><img
+                          src="assets/images/testcase/notapplicable_icon.svg" width="16">
+                      </button>
+                      <button type="button" class="btn btn-light"
+                        [ngClass]="{'disabled_filter': data.filter.other === true}"
+                        (click)="SetResultFilter(TestOutcome.Unknow)"><img src="assets/images/testcase/unknow_icon.png"
+                          width="16">
+                      </button>
+                      <button type="button" class="btn  btn-light bi bi-box-arrow-in-right"
+                        [ngClass]="{'disabled_filter': data.filter.withSubSuites === true}"
+                        (click)="SetFilter('SubSuites')"></button>
+                      <button type="button" class="btn  btn-light bi bi-arrow-bar-down"
+                        [ngClass]="{'disabled_filter': data.filter.isAlwaysExpand === true}"
+                        (click)="SetFilter('AlwaysExpand')">
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <p-tree [value]="data.suitesTree" styleClass="mw-100 w-100 h-100 border-0" selectionMode="single"
+                [(selection)]="data.selectedSuite">
+                <ng-template let-node pTemplate="default" class="border">
+
+                  <div class="d-flex flex-row">
+                    <div class="flex-column flex-grow-1">
+                      <i class="bi bi-folder"></i>&nbsp;&nbsp;{{ node.name }}
+                    </div>
+                    <div class="flex-column rounded" *ngIf="node.passed > 0 && data.filter.passed == true"
+                      style="background-color: #A4C400;  margin-right: 4px">
+                      <span class="round text-light p-1 text-success">{{ node.passed }}</span>
+                    </div>
+                    <div class="flex-column rounded" *ngIf="node.failed > 0 && data.filter.failed == true"
+                      style="background-color: #F55050;  margin-right: 4px">
+                      <span class="round text-light p-1 text-success">{{ node.failed }}</span>
+                    </div>
+                    <div class="flex-column rounded" *ngIf="node.blocked > 0 && data.filter.blocked == true"
+                      style="background-color: #FFB100;  margin-right: 4px">
+                      <span class="round text-light p-1 text-success">{{ node.blocked }}</span>
+                    </div>
+                    <div class="flex-column rounded" *ngIf="node.notapplicable > 0 && data.filter.skipped == true"
+                      style="background-color: #9A9483;  margin-right: 4px">
+                      <span class="round text-light p-1 text-success">{{ node.notapplicable }}</span>
+                    </div> 
+                    <div class="flex-column rounded" *ngIf="node.other > 0 && data.filter.other == true"
+                      style="background-color: #9C719F;  margin-right: 4px">
+                      <span class="round text-light p-1 text-success">{{ node.other }}</span>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-tree>
+            </div>
+          </ng-template>
+          <ng-template pTemplate>
+            <p-tabView class="w-100 h-100" *ngIf="data.selectedSuite">
+              <p-tabPanel header="Tests" style="padding: 0px; margin: 0px;" [(selected)]="data.isPointTabSelected">
+                <ng-template pTemplate="content" style="padding: 0px;">
+                  <div class="w-100 h-100"> 
+                          <p-table [value]="data.visiblePoints" dataKey="id"
+                            [(selection)]="data.selectedPoint" selectionMode="single"
+                           >
+                            <ng-template pTemplate="header">
+                              <tr class="m-0 p-0">
+                                <th ></th>
+                                <th pSortableColumn="name" class="py-1">Test 
+                                    <p-sortIcon field="name"></p-sortIcon>
+                                </th>
+                                <th style="width: 200px" pSortableColumn="configuration" class="py-1">Configuration 
+                                  <p-sortIcon field="configuration"></p-sortIcon> 
+                                </th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-p let-expanded="expanded">
+                              <tr  [pSelectableRow]="p" >
+                                <td class="p-0 m-0">
+                                  <button type="button" pButton pRipple [pRowToggler]="p" class="p-button-text p-button-rounded p-button-plain m-0 p-0" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                              </td>
+                                <td class="py-0 px-1">
+                                  <div class="my-1 break-word-container">
+                                  <div style="float: left; width: 20px; " class="mx-1 ">
+                                    <img *ngIf="p.outcome == TestOutcome.Paused"
+                                      src="assets/images/testcase/pause_icon.png" width="16">
+                                    <img *ngIf="p.outcome == TestOutcome.Passed" 
+                                      src="assets/images/testcase/passed_icon.svg" width="16">
+                                    <img *ngIf="p.outcome == TestOutcome.Failed"
+                                      src="assets/images/testcase/failed_icon.svg" width="16">
+                                    <img *ngIf="p.outcome == TestOutcome.Blocked"
+                                      src="assets/images/testcase/blocked_icon.png" width="16">
+                                    <img *ngIf="p.outcome == TestOutcome.Skipped"
+                                      src="assets/images/testcase/notapplicable_icon.svg" width="16">
+                                    <img *ngIf="p.outcome == TestOutcome.Unknow || p.outcome == TestOutcome.Planed"
+                                      src="assets/images/testcase/unknow_icon.png" width="16">
+                                  </div>
+                                    <div >{{p.name}}</div>
+                                  </div>
+                                </td>
+                                <td class="py-0 px-1">
+                                  <div style="float: right;  " class="my-1 break-word-container">{{p.configuration}}</div>
+                                </td>
+                              </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="rowexpansion" let-selectedPoint>
+                              <tr>
+                                  <td colspan="3" class="m-0 p-0">
+                                      <div  >
+                                        <div class="w-100" >
+                                          <div *ngIf="selectedPoint.description" style="background-color: #ffe7e6; " class="py-4 px-3"
+                                            (click)="selectedPoint.showStack();">
+                                            {{ selectedPoint.description }}
+                                          </div>
+                                          <div *ngIf="selectedPoint.isStackVisible == true" style="background-color: #ffe7e6; "
+                                            class="py-4 px-3 my-1">
+                                            {{ selectedPoint.stacktrace }}
+                                          </div>
+                                          <!-- <div class="pt-2">Duration:  1s 006ms</div> -->
+                                          <div class="p-2">Tester: {{ selectedPoint.tester }}</div>
+                                        </div>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </ng-template>
+
+                          </p-table> 
+                  </div>
+                </ng-template>
+              </p-tabPanel>
+              <p-tabPanel header="Charts" style="padding: 0px; margin: 0px;" [(selected)]="data.isChartTabSelected">
+                <ng-template pTemplate="content" style="padding: 0px;">
+                  <div class="w-100 h-100">
+                    <div class="p-3 d-flex flex-row justify-content-center">
+                      <h3>Configurations</h3>
+                    </div>
+                    <div class="p-3 d-flex flex-row flex-grow-1 justify-content-center flex-wrap">
+                      <div *ngFor="let chart of data.charts" class="mx-5  " style="float: left; ">
+                        <div style="width: 150px; height: 140px" class="flex-column  mx-auto">
+                          <canvas baseChart class="chart" [data]="chart.doughnutChartData" [options]="pieChartOptions"
+                            type='doughnut'>
+                          </canvas>
+                          <div style="position: relative; margin-top: -95px; width: 150px; " class="text-center ">
+                            <h2>{{ chart.total }}</h2>
+                          </div>
+                        </div>
+                        <div class="flex-column ">
+                          <div class="mt-4 mx-3">
+                            <h3>{{ chart.configuration }}</h3>
+                          </div>
+                          <div *ngFor="let outcome of chart.outcomes" class="flex-row flex-grow-1 clearfix mb-1">
+                            <div style="float: left; width: 35px; text-align: right;" class="mx-2">{{ outcome.count }}</div>
+                            <div
+                              [style.background-color]="outcome.color"
+                              style="margin-top: 5px; float: left; width: 13px; height: 13px; "
+                              class="rounded-circle">&nbsp;</div>
+                            <div style="float: left" class="mx-1">{{ outcome.outcomeStr }}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="m-3" />
+                    </div>
+                  </div>
+                </ng-template>
+              </p-tabPanel>
+            </p-tabView>
+          </ng-template>
+        </p-splitter>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div style="position: absolute; bottom: 1px;" class="w-100 d-flex flex-row flex-grow-1 justify-content-center align-items-center">
+  <div class="flex-column " style="width: 90%">
+    <p-messages [value]="requests.messages"></p-messages>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

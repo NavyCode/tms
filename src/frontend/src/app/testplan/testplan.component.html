@@ -1,0 +1,430 @@
+<p-contextMenu #cmd [model]="contextMenuDefineItems"></p-contextMenu>
+<p-contextMenu #cme [model]="contextMenuExecuteItems"></p-contextMenu>
+<p-contextMenu #cms [model]="contextMenuSuiteItems"></p-contextMenu>
+
+<div class="d-flex flex-grow-1 h-100">
+  <div class="d-flex flex-row flex-grow-1">
+    <lefttoolbar [projectid]="data.projectId"></lefttoolbar>
+    <div class="d-flex flex-column flex-grow-1">
+      <navigation [links]="data.navigationLinks"></navigation>
+      <div class="d-flex flex-row flex-grow-1">
+        <p-splitter [panelSizes]="[20,80]" class="d-flex flex-column flex-grow-1 ">
+          <ng-template pTemplate>
+            <div class="d-flex flex-column flex-grow-1 ">
+              <div class="clearfix w-100 pt-2 pb-1 px-0">
+                <div style="float: left" class="px-3">
+                  <h4>Test plan</h4>
+                </div>
+                <div style="float: right">
+                  <button type="button" class="btn  bi bi-box-arrow-in-right "
+                    [ngClass]="{'btn-primary': data.isShowTestsWithChildrenSuite === true}"
+                    (click)="this.UpdateTestsWithChildrenSuites()"></button>
+                  <button type="button" class="btn  bi bi-arrow-bar-down" (click)="this.expandSelectedSuite()"></button>
+                  <button type="button" class="btn  bi bi-arrow-bar-up" (click)="this.collapseSelectedSuite()"></button>
+                </div>
+              </div>
+              <p-tree [value]="data.suitesTree" styleClass="p-0 m-0 mw-100 w-100 h-100 border-0" selectionMode="single"
+                [(selection)]="data.selectedSuite" [contextMenu]="cms">
+                <ng-template let-node pTemplate="default">
+                  <div class="w-100" style="overflow-x: hidden; text-overflow: ellipsis; white-space: nowrap;" >
+                    <i class="bi bi-folder" ></i>&nbsp;&nbsp;{{ node.name }}
+                  </div>
+                </ng-template>
+              </p-tree>
+            </div> 
+          </ng-template>
+          <ng-template pTemplate>
+            <div class="w-100 h-100">
+              <p-tabView class="w-100 h-100" *ngIf="data.selectedSuite" [(activeIndex)]="data.tabSelectedIndex">
+                <p-tabPanel header="Define" style="padding: 0px; margin: 0px;" >
+                  <ng-template pTemplate="content" style="padding: 0px;">
+                    <div class="w-100 ">
+                      <div class="clearfix w-100 pt-2 px-3">
+                        <div style="float: left;" class="mt-1">
+                          <h5>{{ data.selectedSuite.name }} (ID: {{ data.selectedSuite.id }})</h5>
+                        </div>
+                        <div style="float: right">
+                          <button type="button" class="btn btn-primary" (click)="this.showAddTestCaseWindow()">New Test
+                            Case</button>
+                          <button type="button" class="btn btn-light bi bi-plus-lg"
+                            (click)="this.showAddExistTestCaseWindow()"></button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="w-100 h-100">
+                      <p-table [value]="data.defineTests" 
+                      class="lh-1"
+                        [contextMenu]="cmd">
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th class="py-1 px-2" style="width: 30px;">
+                              <p-checkbox name="groupname" [(ngModel)]="data.defineTestCasesSelectAll" [binary]="true"></p-checkbox>
+                            </th>
+                            <th class="py-2 px-2" style="width: 90px;" pSortableColumn="name">Order<p-sortIcon
+                                field="order"></p-sortIcon></th>
+                            <th class="py-0" pSortableColumn="name">Title<p-sortIcon field="name"></p-sortIcon></th>
+                            <th class="py-0 px-2" style="width: 100px;" pSortableColumn="priority">Priority<p-sortIcon
+                                field="priority"></p-sortIcon></th>
+                            <th class="py-0 px-2" style="width: 90px;" pSortableColumn="testCaseId">Id <p-sortIcon
+                                field="id"></p-sortIcon></th>
+                            <th class="py-0" style="width: 130px;" pSortableColumn="stateStr">State<p-sortIcon
+                                field="stateStr"></p-sortIcon></th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-p let-rowIndex="rowIndex">
+                          <tr class="sample"  
+                            [ngClass]="{'bg-row-selected': p.selected === true}"
+                            [pContextMenuRow]="p">
+                            <td class="py-1  px-2"><p-checkbox name="groupname" [(ngModel)]="p.selected" [binary]="true"></p-checkbox>
+                            </td>
+                            <td class="py-2" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.order}}</td>
+                            <td class="py-0" (click)="p.selected = true" (contextmenu)="p.selected = true"> 
+                              <div>
+                                {{p.name}}
+                              </div>
+                            </td>
+                            <td class="py-0" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.priority}}</td>
+                            <td class="py-0" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.testCaseId}}</td>
+                            <td class="py-0" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.stateStr}}</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </ng-template>
+                </p-tabPanel>
+                <p-tabPanel header="Execute"  >
+                  <ng-template pTemplate="content"  style="padding: 0px;">
+                    <div class="w-100 ">
+                      <div class="clearfix w-100 pt-2 px-3">
+                        <div style="float: left;" class="mt-1">
+                          <h5>{{ data.selectedSuite?.name }} (ID: {{ data.selectedSuite.id }})</h5>
+                        </div>
+                        <div style="float: right">
+                          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button type="button" class="btn btn-light"
+                                (click)="SetStateSelectedTests(OutCome.Passed)">
+                                <div style="float: left; padding-right: 5px"><img
+                                    src="assets/images/testcase/passed_icon.svg" width="16"></div>
+                                <div style="margin-top: 2px; float: left">Pass</div>
+                              </button>
+                              <button type="button" class="btn btn-light"
+                                (click)="SetStateSelectedTests(OutCome.Failed)">
+                                <div style="float: left; padding-right: 5px"><img
+                                    src="assets/images/testcase/failed_icon.svg" width="16"> </div>
+                                <div style="margin-top: 2px; float: left">Fail</div>
+                              </button>
+                              <button type="button" class="btn btn-light"
+                                (click)="SetStateSelectedTests(OutCome.Blocked)">
+                                <div style="float: left; padding-right: 5px"><img
+                                    src="assets/images/testcase/blocked_icon.png" width="16"> </div>
+                                <div style="margin-top: 2px; float: left">Block</div>
+                              </button>
+                              <button type="button" class="btn btn-light"
+                                (click)="SetStateSelectedTests(OutCome.Skipped)">
+                                <div style="float: left; padding-right: 5px"><img
+                                    src="assets/images/testcase/notapplicable_icon.svg" width="16"> </div>
+                                <div style="margin-top: 2px; float: left">Skip</div>
+                              </button>
+                              <button type="button" class="btn btn-light"
+                                (click)="SetStateSelectedTests(OutCome.Planed)"><i class="bi bi-arrow-clockwise"></i>
+                                Reset</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-100">
+                      <p-table [value]="data.executeTests" dataKey="pointId" 
+                        [contextMenu]="cme" class="lh-1">
+                        <ng-template pTemplate="header">
+                          <tr class="m-0 p-0"> 
+                            <th class="py-1 px-2" style="width: 30px;">
+                              <p-checkbox name="groupname" [(ngModel)]="data.executeTestCasesSelectAll" [binary]="true"></p-checkbox>
+                            </th>
+                            <th ></th>
+                            <th class="py-2 px-2" pSortableColumn="name">Title<p-sortIcon field="name"></p-sortIcon>
+                            </th>
+                            <th style="width: 120px" class="py-0 px-2" pSortableColumn="outcome">Outcome<p-sortIcon
+                                field="outcome"></p-sortIcon></th>
+                            <th style="width: 100px" class="py-0 px-2" pSortableColumn="order">Order<p-sortIcon field="order"></p-sortIcon>
+                            </th>
+                            <th class="py-0 px-2" pSortableColumn="id">Id<p-sortIcon field="testcaseId"></p-sortIcon>
+                            </th> 
+                            <th class="py-0 px-2" pSortableColumn="tester" >Tester<p-sortIcon
+                                field="tester"></p-sortIcon></th>
+                            <th class="py-0 px-2" pSortableColumn="priority"  >Priority<p-sortIcon
+                                field="priority"></p-sortIcon></th>
+                            <th class="py-0 px-2" pSortableColumn="configuration"  >Configuration<p-sortIcon
+                                field="configuration"></p-sortIcon>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-p let-rowIndex="rowIndex" let-expanded="expanded">
+                          <tr class="sample" 
+                            [pContextMenuRow]="p">
+                            <td class="py-1  px-2"><p-checkbox name="groupname" [(ngModel)]="p.selected" [binary]="true"></p-checkbox>
+                            </td>
+                            <td class="p-0 m-0">
+                                <button type="button" pButton pRipple [pRowToggler]="p" class="p-button-text p-button-rounded p-button-plain m-0 p-0" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                            </td>
+                            <td class="py-2 px-2" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.name}}</td>
+                            <td class="py-2 px-2" (click)="p.selected = true" (contextmenu)="p.selected = true">
+                              <div class="mx-1">
+                                <img style="float: left; margin-right: 5px;" *ngIf="p.outcome == OutCome.Paused" src="assets/images/testcase/pause_icon.png"
+                                  width="16">
+                                <img style="float: left; margin-right: 5px;"  *ngIf="p.outcome == OutCome.Passed" src="assets/images/testcase/passed_icon.svg"
+                                  width="16">
+                                <img style="float: left; margin-right: 5px;"  *ngIf="p.outcome == OutCome.Failed" src="assets/images/testcase/failed_icon.svg"
+                                  width="16">
+                                <img style="float: left; margin-right: 5px;"  *ngIf="p.outcome == OutCome.Blocked" src="assets/images/testcase/blocked_icon.png"
+                                  width="16">
+                                <img style="float: left; margin-right: 5px; "  *ngIf="p.outcome == OutCome.Skipped"
+                                  src="assets/images/testcase/notapplicable_icon.svg" width="16">
+                                <img style="float: left; margin-right: 5px;"  *ngIf="p.outcome == OutCome.Planed" src="assets/images/testcase/unknow_icon.png"
+                                  width="16">
+                                  {{p.outcomeStr}}
+                              </div>
+                            </td>
+                            <td class="py-2 px-2" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.order}}</td>
+                            <td class="py-2 px-2" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.testcaseId}}</td>
+                            <td class="py-2 px-2" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.tester}}</td>
+                            <td class="py-2 px-2" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.priority}}</td>
+                            <td class="py-2 px-2" (click)="p.selected = true" (contextmenu)="p.selected = true">{{p.configuration}}</td>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="rowexpansion" let-selectedPoint>
+                          <tr>
+                              <td colspan="9" class="m-0 p-0">
+                                <testcase [id]="selectedPoint.testcaseId" [isReadOnly]="true" [isModal]="true"  [projectId]="data.projectId"></testcase>
+                              </td>
+                          </tr>
+                      </ng-template>
+
+                      </p-table>
+                    </div>
+                  </ng-template>
+                </p-tabPanel>
+
+                <p-tabPanel header="Results"  style="height:100%">
+                  <ng-template pTemplate="content" style="padding: 0px;">
+
+                    <div class="w-100 h-100  d-flex justify-content-center">
+                      <div class="my-4">
+                        <a class="text-secondary" [routerLink]="data.reportLink?.url?.path" [queryParams]="data.reportLink?.url?.params">
+                          <img src="assets/images/header/Metrics.svg" class="rounded img-fluid " width="30" style="float: right; margin: 10px" />
+                          <span style="font-size: 2rem;">Click to open report</span>
+                        </a>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-tabPanel>
+
+              </p-tabView>
+
+            </div>
+          </ng-template>
+        </p-splitter>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<p-dialog *ngIf="data.isAddTestCasesModal" header="Add test case" [(visible)]="data.isAddTestCasesModal" [modal]="true"
+  [style]="{width: '80%', height: '80%'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <form>
+    <div class=" w-100 ">
+      <div class="row">
+        <div class="col">
+          <input name="searhText" type="text" class="form-control" [(ngModel)]="data.addTestCasesModal.searchText"
+            id="searhText" placeholder="">
+        </div>
+        <div class="col-md-auto">
+          <button type="button" (click)="this.searchTestCases()" class="btn  bi bi-search"></button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-4">
+    <p-table [value]="data.addTestCasesModal.result">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="py-1 px-2" style="width: 30px;">
+            <p-checkbox name="groupname" value="val1" [(ngModel)]="data.addTestCasesModal.selectAll"></p-checkbox>
+          </th>
+          <th class="py-0 px-2" style="width: 90px;" pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+          <th class="py-0" pSortableColumn="name">Title<p-sortIcon field="name"></p-sortIcon></th>
+          <th class="py-0 px-2" style="width: 100px;" pSortableColumn="priority">Priority<p-sortIcon
+              field="priority"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-p>
+        <tr class="sample">
+          <td class="py-1  px-2"><p-checkbox name="groupname" value="val1" [(ngModel)]="p.selected"></p-checkbox></td>
+          <td class="py-0">{{p.id}}</td>
+          <td class="py-0">{{p.name}}</td>
+          <td class="py-0">{{p.priority}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn  bi bi-check-lg" (click)="this.addTestCases()"> Add test cases</button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog *ngIf="data.isAssignConfigModal" header="Assign configuration" [(visible)]="data.isAssignConfigModal"
+  [modal]="true" position="right" [style]="{width: '50%', height: '80%'}" [baseZIndex]="10000" [draggable]="false"
+  [resizable]="false">
+  <!-- <form>
+    <div class=" w-100 ">
+      <div class="row">
+        <div class="col">
+          <input name="searhText" type="text" class="form-control" [(ngModel)]="data.assignConfigModal.searchText"
+             id="searhText" placeholder="">
+        </div>
+        <div class="col-md-auto">
+          <button type="button" class="btn  bi bi-search"></button>
+        </div>
+      </div>
+    </div>
+  </form> -->
+
+  <div>
+    <p-table [value]="data.assignConfigModal.result">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="py-1 px-2" style="width: 30px;">
+            <p-checkbox name="groupname" [(ngModel)]="data.assignConfigModal.selectAll" [binary]="true"></p-checkbox>
+          </th>
+          <th class="py-0 px-2" style="width: 90px;" pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+          <th class="py-0" pSortableColumn="name">Title<p-sortIcon field="name"></p-sortIcon></th>
+          <th class="py-0 px-2" pSortableColumn="params">Params<p-sortIcon field="params"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-p>
+        <tr class="sample " [ngClass]="{'bg-row-selected': p.selected === true}">
+          <td class="py-1  px-2"><p-checkbox name="groupname" [(ngModel)]="p.selected" [binary]="true"></p-checkbox>
+          </td>
+          <td class="py-0">{{p.id}}</td>
+          <td class="py-0">{{p.name}}</td>
+          <td class="py-0">{{p.params}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary bi bi-check-lg" *ngIf="data.assignConfigModal.isSuite == true"
+      (click)="this.setSuiteConfigs()"> Set suite configs</button>
+    <button type="button" class="btn btn-primary bi bi-check-lg" *ngIf="data.assignConfigModal.isSuite == false"
+      (click)="this.setTestConfigs()"> Set testcase configs</button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog *ngIf="data.isAssignTesterModal" header="Assign tester" [(visible)]="data.isAssignTesterModal" [modal]="true"
+  position="right" [style]="{width: '20%', height: '100%'}" [baseZIndex]="10000" [draggable]="false"
+  [resizable]="false">
+  <!-- <form>
+    <div class=" w-100 ">
+      <div class="row">
+        <div class="col">
+          <input name="searhText" type="text" class="form-control" [(ngModel)]="data.assignTesterModal.searchText"
+            id="searhText" placeholder="">
+        </div>
+        <div class="col-md-auto">
+          <button type="button" class="btn  bi bi-search"></button>
+        </div>
+      </div>
+    </div>
+  </form> -->
+
+  <div >
+    <p-listbox [(options)]="data.assignTesterModal.result" (onClick)="this.AssignUserSelected()" [(ngModel)]="data.assignTesterModal.selected"
+      [multiple]="false" optionLabel="name"></p-listbox>
+  </div>
+</p-dialog>
+
+
+<p-dialog *ngIf="data.isCreateTestCaseModal" header="Create test case" [(visible)]="data.isCreateTestCaseModal"
+  [modal]="true" [style]="{width: '80%', height: '90%'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <testcase [isModal]="true" [projectId]="data.projectId" (created)="this.testCaseCreated($event)"></testcase>
+</p-dialog>
+
+<p-dialog *ngIf="data.isEditTestCaseModal" header="Edit test case" [(visible)]="data.isEditTestCaseModal" [modal]="true"
+  [style]="{width: '80%', height: '90%'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <testcase [id]="data.editTestCaseId" [isModal]="true" [projectId]="data.projectId"></testcase>
+</p-dialog>
+
+<p-dialog *ngIf="data.isAddOrEditSuiteModalVisible == true" [(visible)]="data.isAddOrEditSuiteModalVisible"
+  [modal]="true" [style]="{width: '500px', height: '250px'}" [baseZIndex]="10000" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <span *ngIf="data.editSuite.id > 0">Edit test suite</span>
+    <span *ngIf="data.editSuite.id == null">Add test suite</span>
+  </ng-template>
+
+  <div class="form-group" class="my-1">
+    <input name="newProjectName" type="text" class="form-control" [(ngModel)]="data.editSuite.name" id="newProjectName"
+      placeholder="">
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" *ngIf="data.editSuite.id == null" (click)="this.addSuite()"> Create
+    </button>
+    <button type="button" class="btn btn-primary" *ngIf="data.editSuite.id > 0" (click)="this.updateSuite()"> Save
+    </button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog *ngIf="data.isShowSetCommentModal == true" [visible]="true"
+  [modal]="true" [style]="{width: '500px', height: '250px'}" [baseZIndex]="10000" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <span>Test result comment</span> 
+  </ng-template>
+
+  <div class="form-group" class="my-1">
+    <textarea  class="form-control" [(ngModel)]="data.testPointCommentModal" 
+    rows="3" placeholder="Comment"></textarea>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary"  (click)="this.SetComment()"> Comment
+    </button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog *ngIf="data.isDeleteSuiteModalVisible == true" header="Delete '{{ data.selectedSuite?.name }}'?"
+  [(visible)]="data.isDeleteSuiteModalVisible" [modal]="true" [style]="{width: '500px'}" [baseZIndex]="10000"
+  [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" (click)="this.deleteSuite()"> Yes </button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog *ngIf="data.isDeleteTestCaseModalVisible == true"
+  header="Delete {{ data.defineSelectedTests.length }} test cases?" [(visible)]="data.isDeleteTestCaseModalVisible"
+  [modal]="true" [style]="{width: '500px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" (click)="this.deleteTestCases()"> Yes </button>
+  </ng-template>
+</p-dialog> 
+
+<div style="position: absolute; bottom: 1px;" class="w-100 d-flex flex-row flex-grow-1 justify-content-center align-items-center">
+  <div class="flex-column " style="width: 90%">
+    <p-messages [value]="requests.messages"></p-messages>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

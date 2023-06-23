@@ -1,0 +1,71 @@
+
+    <div class="d-flex flex-column bg-light align-content-stretch" style="width: 60px;">
+      <div class="text-center d-flex flex-column">
+        <a href="/" class="d-block px-3 py-2 link-dark text-decoration-none" title="" data-bs-toggle="tooltip"
+          data-bs-placement="right" data-bs-original-title="Icon-only" style="font-size: 18pt;">
+          N
+        </a>
+      </div> 
+      <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+        <li *ngIf="projectid > 0" class="nav-item">
+          <a href="/projects/{{projectid}}/testplans" class="nav-link py-3 border-bottom" aria-current="page" title="" data-bs-toggle="tooltip"
+            data-bs-placement="right" data-bs-original-title="Home">
+            <img src="assets/images/tests/testplan-icon.svg" class="rounded img-fluid d-block mx-auto" width="30" />
+          </a>
+        </li>
+        
+        
+        <li *ngIf="projectid > 0" class="nav-item">
+          <a href="/projects/{{projectid}}/settings" class="nav-link py-3 border-bottom" aria-current="page" title="" data-bs-toggle="tooltip"
+            data-bs-placement="right" data-bs-original-title="Home">
+            <img src="assets/images/header/Stream-Analytics-Jobs.svg" class="rounded img-fluid d-block mx-auto"
+              width="30" />
+          </a>
+        </li>
+        <!-- <li *ngIf="projectid > 0" class="nav-item">
+          <a href="/projects/{{projectid}}/planreport" class="nav-link py-3 border-bottom" aria-current="page" title="" data-bs-toggle="tooltip"
+            data-bs-placement="right" data-bs-original-title="Home">
+            <img src="assets/images/header/Metrics.svg" class="rounded img-fluid d-block mx-auto"
+              width="30" />
+          </a>
+        </li> -->
+        <li *ngIf="projectid > 0" class="nav-item">
+          <a href="/" class="nav-link py-3 border-bottom" aria-current="page" title="" data-bs-toggle="tooltip"
+            data-bs-placement="right" data-bs-original-title="Home">
+            <img src="assets/images/header/Resource-Graph-Explorer.svg" class="rounded img-fluid d-block mx-auto" width="30" />
+          </a>
+        </li>
+        
+        <li  *ngIf="projectid > 0" class="nav-item">
+          <a href="/projects/{{projectid}}/users" class="nav-link py-3 border-bottom" aria-current="page" title="" data-bs-toggle="tooltip"
+            data-bs-placement="right" data-bs-original-title="Home">
+            <img src="assets/images/header/Users.svg" class="rounded img-fluid d-block mx-auto" width="30" />
+          </a>
+        </li>
+      </ul>
+  
+      <div class="dropdown border-top">
+        <a href="#"
+          class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle"
+          id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-info-circle"></i>
+        </a>
+        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+  
+          <li>
+            <a class="dropdown-item" href="https://api.whatsapp.com/send?phone=79624322688&text=" target="_blank">
+              <img style="margin: 3px 10px 0px 0px" src="assets/images/core/icons8-whatsapp-40.png"
+                class="rounded img-fluid d-block mx-auto" width="22" alt="Whatsapp help" style="float: left"> <span
+                class="mx-1">Whatsapp</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="https://t.me/alekssharkov" target="_blank">
+              <img style="margin: 3px 10px 0px 0px" src="assets/images/core/icons8-telegram-app-48.png"
+                class="rounded img-fluid d-block mx-auto" width="22" alt="Telegram help" style="float: left"><span
+                class="mx-1">Telegram</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div> 

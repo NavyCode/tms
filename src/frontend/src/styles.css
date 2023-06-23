@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+@import './app/css/common.css';
+
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import './app/css/bootstrap.purple.theme.min.css';
+
+.bodyfix
+{
+     height:100%;
+     padding: 0px;  
+     margin: 0px;
+}
+.htmlfix
+{
+    height:100%;
+} 
+
+.content-area {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+
+  .p-component {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 0.9rem;
+    font-weight: normal;
+}
+
+
+/* Line under prime ng focus */
+/deep/ .p-datatable .p-datatable-tbody > tr:focus {
+  outline: 0rem solid #a6d5fa;
+  outline-offset: 0rem;
+}
+ 
+/* Background in multiple selected rows */
+/deep/ .p-datatable .p-datatable-tbody .bg-row-selected
+{
+  background-color: #DEECF9;
+}
+
+.break-word-container
+{
+  display: table; 
+  width: 100%; 
+  table-layout: fixed; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  overflow-wrap: break-word; 
+  word-wrap: break-word; 
+}

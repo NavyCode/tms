@@ -1,0 +1,73 @@
+﻿<?xml version="1.0"?>
+<export version="1">
+	<suite id="1" >
+		<test id="1">
+			<assignedTo>SampleUser</assignedTo>
+			<title>TestCase</title>
+			<priority>1</priority>
+			<state>Active</state>
+			<description>Descr</description>
+			<automationStatus>Automated</automationStatus>
+			<automationTestName>AutomationTestName</automationTestName>
+			<automationTestStorage>automationTestStorage</automationTestStorage>
+			<automationTestType>AutomationTestType</automationTestType>
+			<precondition>precondition</precondition>
+			<postcondition>postcondition</postcondition>
+			<step>
+				<action>Action 1</action>
+				<result>Result 1</result>
+			</step>
+			<step>
+				<action>Action 2</action>
+				<result>Result 2</result>
+			</step>
+			<config id="1">
+				<tester>SampleUser</tester>
+				<title>Windows 7</title>
+			</config>
+			<config id="2">
+				<title>Windows 10</title>
+			</config>
+		</test>
+		<title>Title</title>
+	</suite>
+	<suite id="2" >
+		<parent id="1"></parent>
+		<test id="1">
+			<title>TestCase</title>
+			<step>
+				<action>Action 1</action>
+				<result>Result 1</result>
+			</step>
+			<step>
+				<action>Action 2</action>
+				<result>Result 2</result>
+			</step>
+			<config id="1">
+				<title>Windows 7</title>
+			</config>
+			<config id="2">
+				<title>Windows 10</title>
+			</config>
+		</test>
+		<test id="2">
+			<title>TestCase</title>
+			<step>
+				<action>Action 1</action>
+				<result>Result 1</result>
+			</step>
+			<step>
+				<action>Action 2</action>
+				<result>Result 2</result>
+			</step>
+			<config id="1">
+				<title>Windows 7</title>
+			</config>
+			<config id="2">
+				<title>Windows 10</title>
+			</config>
+		</test>
+		<title>Title</title>
+	</suite>
+
+</export>

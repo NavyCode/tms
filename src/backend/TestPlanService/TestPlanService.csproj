@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	  <TargetFramework>net7.0</TargetFramework>
+	  <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	  <Version>1.0.0.2</Version>
+	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <UserSecretsId>54354f42-0b2d-413b-8b80-4d4509eb0f44</UserSecretsId>
+	  <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Deploy\**" />
+    <Content Remove="Deploy\**" />
+    <EmbeddedResource Remove="Deploy\**" />
+    <None Remove="Deploy\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Api\swagger.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_WebToolingArtifacts Remove="Properties\PublishProfiles\RegRuProfile.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup> 
+	  <PackageReference Include="EFCore.BulkExtensions" Version="7.0.1" /> 
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.3" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
+	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" /> 
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" /> 
+	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" /> 
+	  <PackageReference Include="NSwag.AspNetCore" Version="13.18.2" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
+	  <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <None Include="Api\swagger.json" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Models\Files\" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\src\Navy.Core\Navy.Core.csproj" />
+  </ItemGroup>
+
+	<Target Name="CopyFilesAfterBuild" AfterTargets="AfterBuild">
+		<ItemGroup>
+            <DataFiles Include="$(ProjectDir)Deploy\**\*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(DataFiles)" DestinationFolder="$(OutDir)\%(RecursiveDir)" />
+	</Target>
+
+	<Target Name="CopyFilesAfterPublish" AfterTargets="Publish">
+		<ItemGroup>
+            <DataFiles Include="$(ProjectDir)Deploy\**\*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(DataFiles)" DestinationFolder="$(PublishDir)\%(RecursiveDir)" />
+	</Target>
+
+	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions> 
+	
+</Project>

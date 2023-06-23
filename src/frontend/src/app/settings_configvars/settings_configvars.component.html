@@ -1,0 +1,118 @@
+<p-contextMenu #cm [model]="contextMenuItems"></p-contextMenu>
+
+<div class="d-flex flex-grow-1 h-100">
+  <div class="d-flex flex-row flex-grow-1">
+    <div class="d-flex flex-column flex-grow-1">
+      <div class="d-flex flex-row">
+        <div class="clearfix w-100 pt-2 px-3">
+          <div style="float: left">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary bi bi-plus-lg" (click)="this.showAddVarWindow()"> New
+                  variable</button>
+              </div>
+              <div class="btn-group" role="group" *ngIf="data.selectedVar">
+                <button type="button" class="btn btn-light bi bi-pencil" (click)="this.showEditVarWindow()"> </button>
+                <button type="button" class="btn btn-light bi bi-x-lg" (click)="this.showDeleteVarWindow()"> </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row flex-grow-1">
+
+        <div style="padding: 10px 0px 10px 0px;" class="w-100">
+          <p-table [value]="data.vars" class="w-100" selectionMode="single" [(selection)]="data.selectedVar"
+            [(contextMenuSelection)]="data.selectedVar" [contextMenu]="cm" dataKey="id">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="py-2" pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th class="py-0" pSortableColumn="comment">Comment <p-sortIcon field="comment"></p-sortIcon></th>
+                <th class="py-0" pSortableColumn="strValues">Values <p-sortIcon field="strValues"></p-sortIcon></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-p>
+              <tr class="sample" [pContextMenuRow]="p" [pSelectableRow]="p">
+                <td class="py-2">
+                  <div style="float: left; width: 25px;"><img src="assets/images/configs/Cubes.svg"
+                      width="20">
+                  </div>
+                  <div>{{p.name}}</div>
+                </td>
+                <td class="py-0">{{p.comment}}</td>
+                <td class="py-0">{{p.strValues}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog *ngIf="data.isAddOrEditVarModalVisible == true" 
+  [(visible)]="data.isAddOrEditVarModalVisible" [modal]="true" position="right"
+  [style]="{width: '350px', height: '100%'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="header">
+    <span *ngIf="data.selectedVar.id > 0">Edit variable</span> 
+    <span *ngIf="data.selectedVar.id == null">Add variable</span> 
+  </ng-template>
+  <div class="form-group" class="my-1">
+    <input name="newProjectName" type="text" class="form-control" [(ngModel)]="data.selectedVar.name"
+      id="newProjectName" placeholder="">
+  </div>
+  <div class="form-group" class="my-1">
+    <textarea name="newProjectComment" class="form-control" [(ngModel)]="data.selectedVar.comment"
+      id="newProjectComment" rows="2"></textarea>
+  </div>
+
+  <div class="clearfix w-100 pt-2  my-1">
+    <div style="float: left">
+      <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary bi bi-plus-lg" (click)="this.addValue()"> Value</button>
+        </div>
+        <div class="btn-group" role="group" *ngIf="data.selectedVar.selectedValue">
+          <button type="button" class="btn btn-light bi bi-x-lg" (click)="this.deleteValue()"> </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-table [value]="data.selectedVar.values" class="w-100" selectionMode="single" [(selection)]="data.selectedVar.selectedValue" dataKey="uid">
+    <ng-template pTemplate="header">
+    </ng-template>
+    <ng-template pTemplate="body" let-p>
+      <tr class="sample" [pSelectableRow]="p">
+        <td [pEditableColumn]="p.name" pEditableColumnField="name" class="py-2">
+          <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input type="text" class="form-control" [(ngModel)]="p.name" placeholder=""  >
+              </ng-template>
+              <ng-template pTemplate="output">
+                  {{ p.name }}
+              </ng-template>
+            </p-cellEditor>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" *ngIf="data.selectedVar.id == null" (click)="this.addVar()"> Create </button>
+    <button type="button" class="btn btn-primary" *ngIf="data.selectedVar.id > 0" (click)="this.updateVar()"> Save </button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog *ngIf="data.isDeleteVarModalVisible == true" header="Delete '{{ data.selectedVar?.name }}'?"
+  [(visible)]="data.isDeleteVarModalVisible" [modal]="true" [style]="{width: '500px'}" [baseZIndex]="10000"
+  [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" (click)="this.deleteVar()"> Yes </button>
+  </ng-template>
+</p-dialog>
+
+
+
+<router-outlet></router-outlet>

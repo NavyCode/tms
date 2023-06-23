@@ -1,0 +1,28 @@
+<div class="d-flex flex-row flex-grow-1">
+
+  <div class="w-100" style="border: solid 1px #ebebeb; height: 50px; padding: 10px;">
+    <div style="float: left">
+      <ng-container *ngFor="let r of data.links; let last = last;">
+        <div style="float: left;" class="mx-1">
+          <ng-container *ngIf="r.url != null">
+              <a class="text-secondary" [routerLink]="r.url.path" [queryParams]="r.url.params">
+                {{ r.name }}
+              </a>
+            <span *ngIf="last == false"> / </span>
+          </ng-container>
+          <ng-container *ngIf="r.url == null">
+            <span class="text-secondary">
+              {{ r.name }}
+            </span>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+    <div style="float: right">
+      <div>
+        <img style="margin: 0px 0px 0px 0px" src="assets/images/core/user.svg" class="rounded img-fluid d-block mx-auto"
+          width="30" alt="User">
+      </div>
+    </div>
+  </div>
+</div>

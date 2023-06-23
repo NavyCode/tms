@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TestPlanService.Services.Db.Tables.Session">
+    <Position X="3" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAAQAAAAAAAAAAAIAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\Session.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.User" HideInheritanceLine="true">
+    <Position X="6" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAIAAAAAAAAAAAQAAAABAgAAAAAQIQAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestConfigVariable">
+    <Position X="14.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAAAgAAAAAAAACAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\ConfigVariable.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Params" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestConfigVariableParam">
+    <Position X="15.75" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\ConfigVarValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestConfig" HideInheritanceLine="true">
+    <Position X="12" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQIAAAAgAAAAAAAACAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\TestConfig.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Params" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestConfigParam" HideInheritanceLine="true">
+    <Position X="13" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAQQAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\TestConfigVariable.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Variable" />
+      <Property Name="VariableParam" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestPlan" HideInheritanceLine="true">
+    <Position X="7" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAEAAAAAACAAAAAAAAAAAAAAhBAAAAAE=</HashCode>
+      <FileName>Services\Db\Tables\TestPlan.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="State" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Suites" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestSuite">
+    <Position X="10" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAEAAAEAAAAAAQAAAAAQAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\TestPlan.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Parent" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="TestCases" />
+      <Property Name="Configs" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.WorkItem" HideInheritanceLine="true">
+    <Position X="6" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAACAAAAEAAAAAAAQAAAAAAAAE=</HashCode>
+      <FileName>Services\Db\Tables\WorkItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Revision" />
+      <Property Name="Type" />
+      <Property Name="Project" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Steps" />
+      <Property Name="Revisions" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.WorkItemRevision">
+    <Position X="2.75" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACDAAEAAAAgAEAEAAAAIACAAAAAAgBAAAABBAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\WorkItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="State" />
+      <Property Name="AutomationStatus" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.Project" HideInheritanceLine="true">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACCAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\Project.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Users" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.DatabaseContext" Collapsed="true">
+    <Position X="19" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoACACAICAAIAAAARCgABAAAAAYAAASAIIAQAARAgYA=</HashCode>
+      <FileName>Services\Db\DatabaseContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestPlanService.TableBase" Collapsed="true">
+    <Position X="20.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>TableBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestSuiteConfig">
+    <Position X="10" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgCAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\TestPlan.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestPlanService.TestStep">
+    <Position X="9" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Services\Db\Tables\TestStep.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestPlanService.ProjectUser">
+    <Position X="9" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAAAAEAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\ProjectUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Role" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.SuiteTestCase">
+    <Position X="13" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAAgAIAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\SuiteTestCase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Points" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestPoint">
+    <Position X="15.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACAAAAAAAAAAAQAAAAAAAAAAAAAAAGAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\TestPoint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RunResult" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestRun">
+    <Position X="15.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAACAEAAAAAAAAAAACAQACAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\TestRun.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Results" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.TestResult">
+    <Position X="12.75" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IQACAACACAAgAAAAABIAIAAAAAAAQAADAQAAAAAAAIA=</HashCode>
+      <FileName>Services\Db\Tables\TestResult.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Files" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TestPlanService.Services.Db.Tables.File">
+    <Position X="10.25" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAACAQAAAAAAFAAAAEBAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\TestRun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestPlanService.Option">
+    <Position X="19" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Options.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="TestPlanService.Services.Db.Tables.UserRole">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAIAAAAAQAAAAQAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Services\Db\Tables\User.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TestPlanService.Outcome" Collapsed="true">
+    <Position X="19" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAABAAABAAAAAAAAAABIAAAABAAA=</HashCode>
+      <FileName>Services\Db\Tables\Outcome.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TestPlanService.PlanState">
+    <Position X="7" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAIAAACAAAA=</HashCode>
+      <FileName>Services\Db\Tables\PlanState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TestPlanService.AutomationStatus">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\PlanState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TestPlanService.WiState">
+    <Position X="2.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAEAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Services\Db\Tables\PlanState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TestPlanService.WiType">
+    <Position X="6" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Db\Tables\PlanState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

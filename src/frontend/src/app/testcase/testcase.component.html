@@ -1,0 +1,113 @@
+<navigation *ngIf="isModal == false"></navigation>
+
+<div class="w-100 lh-1"  *ngIf="isReadOnly == false">
+  <div class="m-1 "  *ngIf="isModal == false">
+    <div style="float: left"><img src="assets/images/testcase/testcase_icon.svg" width="20"></div>
+    <div style="float: left" class="mt-1">TEST CASE {{ data.id }}</div>
+  </div>
+  <div class="d-flex flex-row w-100">
+    <div class="flex-column" style="width: 70px" *ngIf="data.id > 0">
+      <div class="m-1 p-2" >
+        #{{ data.id }}
+      </div>
+    </div>
+    <div class="flex-column  flex-grow-1" >
+      <input id="float-input" type="text" class="w-100 mt-1" [(ngModel)]="data.title" placeholder="Enter title"
+        pInputText>
+    </div>
+    <div class="flex-column">
+      <div class="mt-2 " >
+        <p-dropdown appendTo="body" [options]="data.states"  optionLabel="name" [ngModelOptions]="{standalone: true}"
+       optionValue="value" [(ngModel)]="data.state" ></p-dropdown>
+      </div> 
+    </div>
+    <div class="flex-column  ">
+      <div class="m-1 ">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-primary" (click)="this.Save()" *ngIf="this.data.id > 0" ><i class="bi bi-save" ></i> Save</button>
+            <button type="button" class="btn btn-primary" (click)="this.Create()" *ngIf="this.data.id == null || this.data.id == 0"><i class="bi bi-save" ></i> Create</button> 
+            <button type="button" class="btn btn-light" (click)="this.Refresh()" *ngIf="data.id > 0"><i class="bi bi-arrow-clockwise"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="w-100 clearfix" *ngIf="isReadOnly == false">
+  <!-- <div style="float: left">
+    <div class="mx-1 pt-2">
+      <h5>Steps</h5>
+    </div>
+  </div> -->
+  <div style="float: left">
+    <div class="m-1">
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-primary" (click)="this.addStep()"><i class="bi bi-plus-lg"></i></button>
+          <button type="button" class="btn btn-light" (click)="this.moveStepsUp()"><i class="bi bi-arrow-up"></i></button>
+          <button type="button" class="btn btn-light" (click)="this.moveStepsDown()"><i class="bi bi-arrow-down"></i></button>
+          <button type="button" class="btn btn-light" (click)="this.deleteSteps()"><i class="bi bi-x-lg"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p-table [value]="data.steps" selectionMode="multiple" [(selection)]="data.selectedSteps" [metaKeySelection]="true"
+  dataKey="uid">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="name">№</th>
+      <th pSortableColumn="name" style="width: 49%;">Action</th>
+      <th pSortableColumn="comment" style="width: 49%;">Expected Result</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-p>
+    <tr class="sample" [pSelectableRow]="p">
+      <td class="p-0 m-0 text-center" [width]="20">
+        <div style="float: right; padding-right: 15px">{{ p.number }}.</div>
+      </td>
+      <td class="p-0 m-0">
+        <div class="w-100">
+          <quill-editor style="width: 100%;" [readOnly]="isReadOnly" placeholder="" [(ngModel)]="p.action" [maxLength]="10" [required]="false"
+            [readOnly]="false" [modules]="{toolbar: false}">
+          </quill-editor>
+        </div>
+      </td>
+      <td class="p-0 m-0">
+        <quill-editor style="width: 100%; " [readOnly]="isReadOnly" placeholder="" [(ngModel)]="p.result" [maxLength]="10" [required]="false"
+          [readOnly]="false" [modules]="{toolbar: false}">
+        </quill-editor>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+<p-accordion>
+  <p-accordionTab header="Preconditions">
+    <quill-editor style="width: 100%;" [(ngModel)]="data.preconditions" [maxLength]="10" [required]="false"
+      [readOnly]="false" [modules]="{toolbar: false}">
+    </quill-editor>
+  </p-accordionTab>
+</p-accordion>
+<p-accordion>
+  <p-accordionTab header="Postconditions">
+    <quill-editor style="width: 100%;" [(ngModel)]="data.postconditions" [maxLength]="10" [required]="false"
+      [readOnly]="false" [modules]="{toolbar: false}">
+    </quill-editor>
+  </p-accordionTab>
+</p-accordion>
+
+
+<div style="position: absolute; bottom: 1px;" class="w-100 d-flex flex-row flex-grow-1 justify-content-center align-items-center">
+  <div class="flex-column " style="width: 90%">
+    <p-messages [value]="requests.messages"></p-messages>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

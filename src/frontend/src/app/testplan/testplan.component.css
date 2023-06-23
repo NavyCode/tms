@@ -1,0 +1,27 @@
+@import '../../styles.css';
+
+/deep/ .p-tabview .p-tabview-panels {
+  padding: 0rem;
+}
+
+/deep/ .p-datatable .p-datatable-tbody>tr>td {
+  height: 16px;
+}
+
+/deep/ .p-splitter-horizontal {
+  flex-grow: 1;
+}
+
+/deep/ .p-tree .p-treenode-children {
+  padding: 0 0 0 0.4rem;
+  
+  
+}
+
+
+/deep/ .p-listbox
+{
+  border: solid 0px;
+} 
+   
+ 

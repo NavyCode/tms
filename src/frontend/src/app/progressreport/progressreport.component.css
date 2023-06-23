@@ -1,0 +1,34 @@
+@import '../../styles.css';
+
+/deep/ .p-tabview .p-tabview-panels {
+  padding: 0rem;
+}
+
+/deep/ .p-datatable .p-datatable-tbody>tr>td {
+  height: 16px;
+}
+
+/deep/ .p-splitter-horizontal {
+  flex-grow: 1;
+}
+
+/deep/ .p-treenode-label
+{
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/deep/  .p-tree .p-tree-container .p-treenode {
+  padding: 0rem;
+}
+
+.disabled_filter
+{
+  border-bottom: solid 2px grey;
+}
+
+
+/deep/ .p-tree .p-treenode-children {
+  padding: 0 0 0 0.4rem;
+}
+
