@@ -1,10 +1,10 @@
 # tms
 This is a very simple alternative to paid TMS. Written to replace Azure DevOps TestPlan. Extra parts were thrown away, only the most necessary remained.
-You can find all the necessary documentation here:
+You can find all the necessary documentation [here](https://learn.microsoft.com/en-us/azure/devops/test/navigate-test-plans?view=azure-devops)
 
 runs with Docker, works with Postgres or MsSql (EF.Core)
 
-https://learn.microsoft.com/en-us/azure/devops/test/navigate-test-plans?view=azure-devops
+
 
 # TestPlans
 
