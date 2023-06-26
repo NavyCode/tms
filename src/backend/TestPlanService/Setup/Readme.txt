@@ -1,9 +1,6 @@
-﻿
-2. create database testitdb;
-create user tester with encrypted password 'tester';
-grant all privileges on database testitdb to tester;
-\connect testitdb;
+﻿2. create database navy_testplan;
 
-docker build -t testplan .
+create user tester with encrypted password 'navy';
+grant all privileges on database navy_testplan to navy; 
 
 2. "features": { "buildkit": false }

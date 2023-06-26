@@ -1,4 +1,5 @@
 ﻿docker build -t navy/plan/service .
+docker build -t navy/plan/client .
 
 docker save navy/plan/service > navy_plan_service.tar
 docker save navy/plan/client > navy_plan_client.tar
