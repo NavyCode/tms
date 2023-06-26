@@ -15,6 +15,7 @@
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	  <UserSecretsId>54354f42-0b2d-413b-8b80-4d4509eb0f44</UserSecretsId>
 	  <DockerfileContext>..\..\..</DockerfileContext>
+	  <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
   </PropertyGroup>
 
   <ItemGroup>
