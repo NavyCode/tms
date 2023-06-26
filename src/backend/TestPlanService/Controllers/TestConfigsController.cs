@@ -87,7 +87,7 @@ namespace TestSuiteService.Controllers
                 return _access.Result;
 
             var project = _db.Projects.Find(projectId); 
-            var config = _db.TestConfigs.AddConfig(project, request);
+            var config = _db.TestConfigs.AddConfig(project, request, true);
             return config.Id;
         } 
 

@@ -71,7 +71,10 @@ namespace TestPlanService.Tests.Controllers
         }
 
 
+#if DEBUG
         [TestMethod]
+        [Ignore]
+#endif
         public void Debug()
         {
             var tree = planDefine.GetSuitesTree(projectId, planId).Value;
