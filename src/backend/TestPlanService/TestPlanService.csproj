@@ -11,7 +11,7 @@
 	  <TargetFramework>net7.0</TargetFramework>
 	  <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
 	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
-	  <Version>1.0.0.2</Version>
+	  <Version>1.0.3</Version>
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	  <UserSecretsId>54354f42-0b2d-413b-8b80-4d4509eb0f44</UserSecretsId>
 	  <DockerfileContext>..\..\..</DockerfileContext>

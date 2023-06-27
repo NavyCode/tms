@@ -1,4 +1,5 @@
 ﻿using Castle.Core.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,24 +16,22 @@ namespace TestPlanService.Services.Setup
     {
          
         ILogger<SetupService> _logger;
-        private ConfigService _config;
-        private DatabaseService _db;
+        private ConfigService _config; 
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public SetupService(ILogger<SetupService> logger, ConfigService config, DatabaseService db)
+        public SetupService(ILogger<SetupService> logger, ConfigService config, IServiceScopeFactory scopeFactory)
         { 
             _logger = logger;
-            _config = config;
-            _db = db;
+            _config = config; 
+            _scopeFactory = scopeFactory;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
-            // todo
-            //var dbContext = DatabaseContext.FromConfig(_config);
-            //_db = new DatabaseService(_config.CreateLogger<DatabaseService>(), _config, dbContext);
-            //return Update();
-
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseService>();
+            var db = new DatabaseService(_config.CreateLogger<DatabaseService>(), _config, dbContext.Context);
+            await Update(db);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
@@ -40,28 +39,28 @@ namespace TestPlanService.Services.Setup
             return Task.CompletedTask;
         }
 
-        public async Task Update()
+        public async Task Update(DatabaseService db)
         {
             _logger.LogInformation("Database EnsureCreated"); 
-            if (_db.Context.Database.EnsureCreated())
-                new EmptyDbTemplate(_db).Fill();
-            await UpdateVersion();
+            if (db.Context.Database.EnsureCreated())
+                new EmptyDbTemplate(db).Fill();
+            await UpdateVersion(db);
         }
 
-        private async Task UpdateVersion()
+        private async Task UpdateVersion(DatabaseService db)
         {
             _logger.LogInformation("UpdateVersion");
-            var version = _db.Context.Options.FirstOrDefault(p => p.Name == "Version");
+            var version = db.Context.Options.FirstOrDefault(p => p.Name == "Version");
             if (version == null)
             {
                 version = new Option()
                 {
                     Name = "Version"
                 };
-                _db.Context.Options.Add(version);
+                db.Context.Options.Add(version);
             }
             version.Value = DatabaseService.Version.ToString();
-            await _db.Context.SaveChangesAsync();
+            await db.Context.SaveChangesAsync();
         }
     }
 }

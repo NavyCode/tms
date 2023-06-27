@@ -48,7 +48,8 @@ namespace TestPlanService
             //services.AddSingleton<CleaningService>(); 
             //services.AddSingleton<ISchedulerWorker>(o => o.GetService<CleaningService>()); 
             //services.AddSingleton<DatabaseService>();
-            //services.AddHostedService<SetupService>();
+
+            services.AddHostedService<SetupService>();
 
             services.AddSwaggerDocument();
             services.AddControllers().AddNewtonsoftJson(p =>
